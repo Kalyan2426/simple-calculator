@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #000;
+            color: #fff;
+        }
+
+        #calculator {
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            background-color: #111;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        #display {
+            width: 100%;
+            font-size: 24px;
+            padding: 5px;
+            margin-bottom: 10px;
+            background-color: #222;
+            color: #fff;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            margin: 5px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button.operator {
+            background-color: #e74c3c;
+        }
+
+        button.clear {
+            background-color: #27ae60;
+        }
+
+        button.equal {
+            background-color: #f39c12;
+        }
+
+        button:hover {
+            filter: brightness(0.9);
+        }
+
+        @media (max-width: 600px) {
+            button {
+                padding: 8px 15px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Simple Calculator</h1>
+    <div id="calculator">
+        <input type="text" id="display" disabled>
+        <br>
+        <button onclick="appendToDisplay('1')">1</button>
+        <button onclick="appendToDisplay('2')">2</button>
+        <button onclick="appendToDisplay('3')">3</button>
+        <button class="operator" onclick="appendToDisplay('+')">+</button>
+        <br>
+        <button onclick="appendToDisplay('4')">4</button>
+        <button onclick="appendToDisplay('5')">5</button>
+        <button onclick="appendToDisplay('6')">6</button>
+        <button class="operator" onclick="appendToDisplay('-')">-</button>
+        <br>
+        <button onclick="appendToDisplay('7')">7</button>
+        <button onclick="appendToDisplay('8')">8</button>
+        <button onclick="appendToDisplay('9')">9</button>
+        <button class="operator" onclick="appendToDisplay('*')"> *</button>
+        <br>
+        <button onclick="appendToDisplay('0')">0</button>
+        <button class="equal" onclick="calculate()">=</button>
+        <button class="clear" onclick="clearDisplay()">C</button>
+        <button class="operator" onclick="appendToDisplay('/')">/</button>
+        <br>
+        <button class="operator" onclick="appendToDisplay('^')">^</button>
+        <button class="operator" onclick="appendToDisplay('sqrt')">√</button>
+        <button class="operator" onclick="appendToDisplay('sin')">sin</button>
+        <button class="operator" onclick="appendToDisplay('cos')">cos</button>
+        <br>
+        <button class="operator" onclick="appendToDisplay('tan')">tan</button>
+        <button class="operator" onclick="appendToDisplay('log')">log</button>
+        <button class="operator" onclick="appendToDisplay('exp')">e^x</button>
+        <button class="operator" onclick="appendToDisplay('pi')">π</button>
+    </div>
+
+    <script>
+        let operatorPressed = false;
+
+        function appendToDisplay(value) {
+            if (operatorPressed && isNaN(value)) {
+                operatorPressed = false;
+                document.getElementById('display').value = '';
+            }
+            document.getElementById('display').value += value;
+            if (!isNaN(value)) {
+                operatorPressed = false;
+            } else {
+                operatorPressed = true;
+            }
+        }
+
+        function calculate() {
+            try {
+                let result = eval(document.getElementById('display').value.replace('^', '**').replace('sqrt', 'Math.sqrt').replace('sin', 'Math.sin').replace('cos', 'Math.cos').replace('tan', 'Math.tan').replace('log', 'Math.log').replace('exp', 'Math.exp').replace('pi', 'Math.PI'));
+                document.getElementById('display').value = result;
+            } catch (error) {
+                document.getElementById('display').value ='Error';
+            }
+        }
+
+        function clearDisplay() {
+            document.getElementById('display').value = '';
+            operatorPressed = false;
+        }
+    </script>
+</body>
+</html>
